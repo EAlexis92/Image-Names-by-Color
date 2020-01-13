@@ -8,15 +8,17 @@
 
 <input type='file' multiple/>
 <button onclick="read()">Read</button>
+<button onclick="compare()">Compare</button>
 
     <script>
 
-        var input = document.querySelector('input');
+        let input = document.querySelector('input');
         let cont = 0;
         let length;
         let image;
         let create;
         let imageNames = [];
+        let instances = 1;
 
         input.addEventListener('change', function () {
 
@@ -32,12 +34,14 @@
 
                 create = document.createElement("canvas");
                 create.setAttribute('style', 'border:1px solid #000000;');
-                create.setAttribute('id', 'myCanvas' + (i + 1));
+                create.setAttribute('id', 'myCanvas' + (instances));
 
                 document.querySelector('body').appendChild(create);
 
-                let canvas = document.querySelector('#myCanvas' + (i + 1));
+                let canvas = document.querySelector('#myCanvas' + (instances));
                 let ctx = canvas.getContext("2d");
+
+                instances++;
 
                 function handleImage(file) {
 
@@ -69,13 +73,14 @@
             cont++;
         })
 
+        let dominant = [];
+
         function read() {
 
             let canvas;
             let height;
             let width;
             let ctx;
-            let dominant;
 
             //console.log(length);
 
@@ -306,22 +311,133 @@
                 }
             }
 
-            if(dominant > 0.70) {
+            for(let i = 0; i < dominant.length; i++) {
 
-                let newWindow = window.open("about:blank", "", "_blank");
-                let names = '';
+                if (dominant[i] > 0.75) {
 
-                for(let i = 0; i < imageNames.length; i++) {
+                    let newWindow = window.open("about:blank", "", "_blank");
+                    let names = '';
 
-                    names += imageNames[i];
+                    for (let i = 0; i < imageNames.length; i++) {
 
-                    if(i != imageNames.length - 1) {
+                        names += imageNames[i];
 
-                        names += ' OR ';
+                        if (i != imageNames.length - 1) {
+
+                            names += ' OR ';
+                        }
+                    }
+
+                    newWindow.document.write("<p>" + names + "</p>");
+                }
+            }
+        }
+
+        let copy = [];
+
+        function compare() {
+
+            let canvas;
+            let height;
+            let width;
+            let ctx;
+            //console.log(length);
+
+            for(let k = 0; k < 1; k++) {
+
+                let pixels = [];
+
+                canvas = document.querySelector('#myCanvas' + (k + 1));
+
+                height = canvas.attributes.height.value;
+                width = canvas.attributes.width.value;
+                ctx = canvas.getContext('2d');
+
+                let cont2 = 0;
+
+                for(let j = 1; j <= height; j++) {
+
+                    for(let i = 1; i <= width; i++) {
+
+                        let imgData = ctx.getImageData(i, j, 1, 1);
+                        let red = imgData.data[0];
+                        let green = imgData.data[1];
+                        let blue = imgData.data[2];
+
+                        //alpha = imgData.data[3];
+                        //console.log(red + " " + green + " " + blue);
+
+                        var rgbToHex = function (rgb) {
+                            var hex = Number(rgb).toString(16);
+                            if (hex.length < 2) {
+                                hex = "0" + hex;
+                            }
+                            return hex;
+                        };
+
+                        var fullColorHex = function(r,g,b) {
+                            var red = rgbToHex(r);
+                            var green = rgbToHex(g);
+                            var blue = rgbToHex(b);
+
+                            return  red + green + blue;
+                        };
+
+                        pixels[cont2] = fullColorHex(red, green, blue);
+                        cont2++;
+
+                        if(i == width && j == height) {
+                            //console.log('My last pixel is in position: '+ i +" "+ j +' and my pixels in hexa are: '+ pixels);
+                        }
                     }
                 }
 
-                newWindow.document.write("<p>"+names+"</p>");
+                let cont = 0;
+                let cont3 = 0;
+
+                for(let i = 0; i < pixels.length; i++) {
+
+                    for(let j = 0; j < pixels.length; j++) {
+
+                        if(pixels[j] == pixels[i]) {
+
+                            cont++;
+                        }
+                        else{
+                            cont3++;
+                        }
+                    }
+                }
+
+                let avg = (cont / (1000)).toFixed(2);
+                copy[k] = avg;
+
+                if(copy[k] > 0.95) {
+                    console.log("Dominant color is OTHER!!! " + copy[k]);
+                    console.log("Number of repeated pixels " + cont);
+                    console.log("Number of different pixels " + cont3);
+                }
+            }
+
+            for(let i = 0; i < copy.length; i++) {
+
+                if (copy[i] > 0.95) {
+
+                    let newWindow = window.open("about:blank", "", "_blank");
+                    let names = '';
+
+                    for (let i = 0; i < imageNames.length; i++) {
+
+                        names += imageNames[i];
+
+                        if (i != imageNames.length - 1) {
+
+                            names += ' OR ';
+                        }
+                    }
+
+                    newWindow.document.write("<p>" + names + "</p>");
+                }
             }
         }
 
