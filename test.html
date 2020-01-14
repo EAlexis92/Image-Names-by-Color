@@ -5,7 +5,22 @@
     <title>Title</title>
 </head>
 <body>
+<style>
+    #Progress_Status {
+        width: 50%;
+        background-color: #ddd;
+    }
 
+    #myprogressBar {
+        width: 2%;
+        height: 20px;
+        background-color: #4CAF50;
+    }
+</style>
+
+<div id="Progress_Status">
+    <div id="myprogressBar"></div>
+</div>
 <input type='file' multiple/>
 <button onclick="read()">Read</button>
 <button onclick="compare()">Compare</button>
@@ -82,9 +97,20 @@
             let width;
             let ctx;
 
+            let cont4 = 0;
+
             //console.log(length);
 
             for(let k = 0; k < length; k++) {
+
+                let element = document.getElementById("myprogressBar");
+                let widthBar = 100;
+
+                console.log(length);
+
+                widthBar = (widthBar / length) * (k + 1);
+                console.log(widthBar + "fdfdfdfd")
+                element.style.width = widthBar + '%';
 
                 let pixels = [];
                 let cont2 = 0;
@@ -281,9 +307,9 @@
                     }
                 }
 
-                console.log(stringTestRed);
+                /*console.log(stringTestRed);
                 console.log(stringTestGreen);
-                console.log(stringTestBlue);
+                console.log(stringTestBlue);*/
 
                 console.log("Red: "+contRed);
                 console.log("Green: "+contGreen);
@@ -292,28 +318,39 @@
                 console.log("White: "+contWhite);
                 console.log("Misc: "+misc);
 
-                let sum = contRed + contGreen + contBlue + contWhite;
-                let avg = (sum / (sum + contBlack + misc)).toFixed(2);
-                dominant = (1 - avg).toFixed(2);
+                let getMax = [contRed, contGreen, contBlue, contBlack, contWhite, misc];
+                let max = Math.max(...getMax);
+                let index = getMax.indexOf(max);
 
-                console.log(avg);
+                getMax.splice(index, 1);
+
+                let sum = getMax.reduce((a, b) => a + b, 0);
+
+                let avg = (sum / (sum + max)).toFixed(2);
+                dominant[k] = (1 - avg).toFixed(2);
+
+                console.log(dominant[k]);
 
                 /*if(dominant > avg) {
                     alert("Dominant color is BLACK!!! " + dominant);
                 }*/
 
-                if(dominant > 0.75) {
-                    console.log("Dominant color is OTHER!!! " + dominant);
+                if(dominant[k] > 0.85) {
+                    console.log("Dominant color is OTHER!!! " + dominant[k]);
 
                 }
                 else{
-                    imageNames.splice(k, 1)
+                    console.log("cut out")
+                    imageNames.splice(k - cont4, 1)
+                    cont4++;
                 }
             }
 
-            for(let i = 0; i < dominant.length; i++) {
+            console.log(imageNames);
 
-                if (dominant[i] > 0.75) {
+            //for(let i = 0; i < dominant.length; i++) {
+
+                //if (dominant[i] > 0.90) {
 
                     let newWindow = window.open("about:blank", "", "_blank");
                     let names = '';
@@ -322,6 +359,8 @@
 
                         names += imageNames[i];
 
+                        console.log(imageNames.length);
+
                         if (i != imageNames.length - 1) {
 
                             names += ' OR ';
@@ -329,8 +368,8 @@
                     }
 
                     newWindow.document.write("<p>" + names + "</p>");
-                }
-            }
+                //}
+            //}
         }
 
         let copy = [];
