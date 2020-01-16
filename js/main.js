@@ -86,9 +86,6 @@ function read() {
 
         let pixels = [];
         let cont2 = 0;
-        let temp = [];
-        let repeatedColor = [];
-        let colorName = [];
 
         canvas = document.querySelector('#myCanvas' + (k + 1));
 
@@ -136,6 +133,10 @@ function read() {
         //temp = Array.from(pixels);
         let cont = 0;
         let cont3 = 0;
+
+        let temp = [];
+        let repeatedColor = [];
+        let colorName = [];
 
         for(let i = 0; i < pixels.length; i++) {
 
@@ -306,6 +307,8 @@ function read() {
         /*if(dominant > avg) {
             alert("Dominant color is BLACK!!! " + dominant);
         }*/
+
+        console.log(" picture is: " + k);
 
         if(dominant[k] > 0.85) {
             console.log("Dominant color is OTHER!!! " + dominant[k]);
