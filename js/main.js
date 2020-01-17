@@ -23,7 +23,7 @@ input.addEventListener('change', function () {
         create.setAttribute('style', 'border:1px solid #000000;');
         create.setAttribute('id', 'myCanvas' + (instances));
 
-        document.querySelector('body').appendChild(create);
+        document.querySelector('.container').appendChild(create);
 
         let canvas = document.querySelector('#myCanvas' + (instances));
         let ctx = canvas.getContext("2d");
@@ -73,16 +73,30 @@ function read() {
 
     //console.log(length);
 
-    for(let k = 0; k < length; k++) {
+    let element = document.getElementById("myprogressBar");
+    let widthBar = 0;
+    let progressNumber = 100;
+    let k = 0;
 
-        let element = document.getElementById("myprogressBar");
-        let widthBar = 100;
+    widthBar = (progressNumber / 4);
+
+
+    element.setAttribute('style', 'width: ' + widthBar + '%');
+
+    if (widthBar == 100) {
+
+        alert('done');
+    } else {
+        widthBar = (progressNumber / 4);
+        widthBar = widthBar * (k + 1);
+        k++;
+    }
+
+    console.log(widthBar + 'hola');
+
+    for(k = 0; k < length; k++) {
 
         console.log(length);
-
-        widthBar = (widthBar / length) * (k + 1);
-        console.log(widthBar + "fdfdfdfd")
-        element.style.width = widthBar + '%';
 
         let pixels = [];
         let cont2 = 0;
@@ -233,12 +247,13 @@ function read() {
         let contRed = 0;
         let contGreen = 0;
         let contBlue = 0;
+        let contGrey = 0;
         let contBlack = 0;
         let contWhite = 0;
         let misc = 0;
 
-        let x = 20;
-        let y = 230;
+        let x = 40;
+        let y = 215;
 
         let stringTestRed = '';
         let stringTestGreen = '';
@@ -269,6 +284,9 @@ function read() {
                 contBlue++;
                 //console.log(blue+'hola');
             }
+            else if(red == blue && blue == green && green == red) {
+                contGrey++;
+            }
             else if(red < x && green < x && blue < x) {
                 contBlack++;
             }
@@ -287,37 +305,86 @@ function read() {
         console.log("Red: "+contRed);
         console.log("Green: "+contGreen);
         console.log("Blue: "+contBlue);
+        console.log("Grey: " + contGrey);
         console.log("Black: "+contBlack);
         console.log("White: "+contWhite);
         console.log("Misc: "+misc);
 
-        let getMax = [contRed, contGreen, contBlue, contBlack, contWhite, misc];
+        let getMax = [contRed, contGreen, contBlue, contGrey, contBlack, contWhite, misc];
         let max = Math.max(...getMax);
+
         let index = getMax.indexOf(max);
+
+        let dominantColor = '';
+
+        switch(index) {
+            case 0: {
+                dominantColor = 'Red';
+                break;
+            }
+            case 1: {
+                dominantColor = 'Green';
+                break;
+            }
+            case 2: {
+                dominantColor = 'Blue';
+                break;
+            }
+            case 3: {
+                dominantColor = 'Grey';
+                break;
+            }
+            case 4: {
+                dominantColor = 'Black';
+                break;
+            }
+            case 5: {
+                dominantColor = 'White';
+                break;
+            }
+            default: {
+                dominantColor = 'Misc';
+                break;
+            }
+        }
 
         getMax.splice(index, 1);
 
         let sum = getMax.reduce((a, b) => a + b, 0);
+
+        console.log('sum ' + sum);
+        console.log('max ' + max);
 
         let avg = (sum / (sum + max)).toFixed(2);
         dominant[k] = (1 - avg).toFixed(2);
 
         console.log(dominant[k]);
 
-        /*if(dominant > avg) {
-            alert("Dominant color is BLACK!!! " + dominant);
-        }*/
+        let avgGrey = contGrey / (sum + max);
 
-        console.log(" picture is: " + k);
+        console.log("Picture is: " + (k + 1));
 
-        if(dominant[k] > 0.85) {
-            console.log("Dominant color is OTHER!!! " + dominant[k]);
+        if(dominantColor == "Grey" || avgGrey > 0.20) {
 
+            console.log('Grey is ' + avgGrey);
+
+            if (dominant[k] > 0.20) {
+                console.log("Dominant color is " + dominantColor + " " + dominant[k]);
+            } else {
+                console.log("cut out")
+                imageNames.splice(k - cont4, 1)
+                cont4++;
+            }
         }
         else{
-            console.log("cut out")
-            imageNames.splice(k - cont4, 1)
-            cont4++;
+
+            if (dominant[k] > 0.85) {
+                console.log("Dominant color is " + dominantColor + " " + dominant[k]);
+            } else {
+                console.log("cut out")
+                imageNames.splice(k - cont4, 1)
+                cont4++;
+            }
         }
     }
 
@@ -327,8 +394,12 @@ function read() {
 
     //if (dominant[i] > 0.90) {
 
-    let newWindow = window.open("about:blank", "", "_blank");
+    //let newWindow = window.open("about:blank", "", "_blank");
     let names = '';
+    let myNames = [];
+    let count = 0;
+    let elements = []
+    let textContainer = document.querySelector('.container');
 
     for (let i = 0; i < imageNames.length; i++) {
 
@@ -340,11 +411,28 @@ function read() {
 
             names += ' OR ';
         }
+
+        console.log(i);
+
+        if((i + 1) % 10 == 0) {
+            myNames[count] = names;
+            elements[count] = document.createElement('div');
+            textContainer.appendChild(elements[count]);
+            count++;
+
+            console.log('hello');
+        }
+        else if(i < 10 && count == 0){
+            myNames[count] = names;
+            elements[count] = document.createElement('div');
+            textContainer.appendChild(elements[count]);
+            count++;
+
+            console.log('hello');
+        }
     }
 
-    newWindow.document.write("<p>" + names + "</p>");
-    //}
-    //}
+    //newWindow.document.write("<p>" + names + "</p>"+"<p>" + names + "</p>");
 }
 
 let copy = [];
@@ -450,7 +538,7 @@ function compare() {
                 }
             }
 
-            newWindow.document.write("<p>" + names + "</p>");
+            //newWindow.document.write("<p>" + names + "</p>");
         }
     }
 }
