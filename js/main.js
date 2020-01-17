@@ -61,6 +61,7 @@ input.addEventListener('change', function () {
 })
 
 let dominant = [];
+let avgGrey = [];
 
 function read() {
 
@@ -183,43 +184,9 @@ function read() {
             cont3++;
             bool = true;
         }
-        /*console.log(colorName);
-        console.log(repeatedColor);
 
-        console.log(pixels);*/
-
-        let result = repeatedColor.sort((a, b) => b - a);
         let colors = colorName.sort((a, b) => b - a);
 
-        /*result.splice((result.length - (Math.ceil(result.length * 0.95))), (Math.ceil(result.length * 0.95)));
-        colors.splice((colors.length - (Math.ceil(colors.length * 0.95))), (Math.ceil(colors.length * 0.95)));
-        console.log(result);
-        console.log(colors);*/
-
-        /*for(let i = 0; i < colors.length; i++) {
-
-            if(parseInt(Number("0x"+colors[i]), 10) > parseInt(Number("0x1f1f1f", 10))) {
-
-                colors.splice(i, 1)
-                result.splice(i, 1)
-            }
-        }
-
-        console.log(result);
-        console.log(colors);*/
-
-        /*let max = Math.max(...repeatedColor);
-        let index = repeatedColor.indexOf(max);
-
-        let selectedColor = colorName[index];*/
-
-        /*let red = [];
-        let green = [];
-        let blue = [];*/
-
-        let rgbColors = [];
-
-        let stringColorRGB = '';
         let colorRed = [];
         let colorGreen = [];
         let colorBlue = [];
@@ -266,9 +233,6 @@ function read() {
             let blue = colorBlue[i];
 
             if((red > blue && red > green) && (red >= x && red <= y) /*&& green <= 30 || ((red >= 0 && red <= 220) && blue <= 30)*/) {
-
-                /*colors.splice(i, 1)
-                result.splice(i, 1)*/
 
                 stringTestRed += red + ", ";
                 contRed++;
@@ -360,16 +324,14 @@ function read() {
 
         console.log(dominant[k]);
 
-        let avgGrey = contGrey / (sum + max);
+        avgGrey[k] = (contGrey / (sum + max)).toFixed(2);
 
         console.log("Picture is: " + (k + 1));
 
         if(dominantColor == "Grey" || avgGrey > 0.20) {
 
-            console.log('Grey is ' + avgGrey);
-
             if (dominant[k] > 0.20) {
-                console.log("Dominant color is " + dominantColor + " " + dominant[k]);
+                console.log("Grey is " + avgGrey[k]);
             } else {
                 console.log("cut out")
                 imageNames.splice(k - cont4, 1)
@@ -390,18 +352,15 @@ function read() {
 
     console.log(imageNames);
 
-    //for(let i = 0; i < dominant.length; i++) {
-
-    //if (dominant[i] > 0.90) {
-
     //let newWindow = window.open("about:blank", "", "_blank");
     let names = '';
     let myNames = [];
     let count = 0;
     let elements = []
-    let textContainer = document.querySelector('.container');
+    let textContainer = document.querySelector('.textContainer');
+    let i = 0;
 
-    for (let i = 0; i < imageNames.length; i++) {
+    for (i; i < imageNames.length; i++) {
 
         names += imageNames[i];
 
@@ -412,24 +371,21 @@ function read() {
             names += ' OR ';
         }
 
-        console.log(i);
-
         if((i + 1) % 10 == 0) {
             myNames[count] = names;
-            elements[count] = document.createElement('div');
-            textContainer.appendChild(elements[count]);
+            textContainer.innerHTML = myNames[count];
             count++;
-
-            console.log('hello');
         }
-        else if(i < 10 && count == 0){
-            myNames[count] = names;
-            elements[count] = document.createElement('div');
-            textContainer.appendChild(elements[count]);
-            count++;
+    }
 
-            console.log('hello');
-        }
+    if(i < 10 && count == 0){
+        //elements[count] = document.createElement('div');
+        //elements[count].innerHTML = myNames[count];
+        //textContainer.appendChild(elements[count]);
+
+        textContainer.innerHTML = names;
+
+        //console.log(textContainer.appendChild(elements[count]));
     }
 
     //newWindow.document.write("<p>" + names + "</p>"+"<p>" + names + "</p>");
