@@ -38,7 +38,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/xampp/htdocs/dryft/wp-content/themes/rasa" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -86,7 +86,10 @@
       <workItem from="1578971442140" duration="589000" />
       <workItem from="1578972507323" duration="7581000" />
       <workItem from="1579139418608" duration="7818000" />
-      <workItem from="1579161137981" duration="14391000" />
+      <workItem from="1579161137981" duration="18131000" />
+      <workItem from="1579289308583" duration="106000" />
+      <workItem from="1579362151311" duration="8199000" />
+      <workItem from="1579396608068" duration="4874000" />
     </task>
     <servers />
   </component>
@@ -98,19 +101,19 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="559" y="93" key="#test.html/0.0.1536.824@0.0.1536.824" timestamp="1578628514048" />
-    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579061243006">
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579285482496">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579061243006" />
-    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1579161137971">
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579285482496" />
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1579396608336">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1579161137971" />
-    <state x="378" y="165" key="run.anything.popup" timestamp="1578928668422">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1579396608336" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1579490375936">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="378" y="165" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1578928668422" />
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1578889061467" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1579490375936" />
     <state x="431" y="145" key="search.everywhere.popup" timestamp="1578975051790">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

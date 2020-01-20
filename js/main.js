@@ -248,7 +248,7 @@ function read() {
                 contBlue++;
                 //console.log(blue+'hola');
             }
-            else if(red == blue && blue == green && green == red) {
+            else if(red == 128 && blue == 128 && green == 128) {
                 contGrey++;
             }
             else if(red < x && green < x && blue < x) {
@@ -328,10 +328,20 @@ function read() {
 
         console.log("Picture is: " + (k + 1));
 
-        if(dominantColor == "Grey" || avgGrey > 0.20) {
+        if(dominantColor == "Grey" || avgGrey[k] > 0.025) {
 
-            if (dominant[k] > 0.20) {
+            if (avgGrey[k] > 0.025) {
                 console.log("Grey is " + avgGrey[k]);
+            } else {
+                console.log("cut out")
+                imageNames.splice(k - cont4, 1)
+                cont4++;
+            }
+        }
+        else if(dominantColor == 'Misc') {
+
+            if (dominant[k] > 1) {
+                console.log("Misc is " + dominantColor + " " + dominant[k]);
             } else {
                 console.log("cut out")
                 imageNames.splice(k - cont4, 1)
@@ -340,7 +350,7 @@ function read() {
         }
         else{
 
-            if (dominant[k] > 0.85) {
+            if (dominant[k] > 1) {
                 console.log("Dominant color is " + dominantColor + " " + dominant[k]);
             } else {
                 console.log("cut out")
@@ -360,6 +370,11 @@ function read() {
     let textContainer = document.querySelector('.textContainer');
     let i = 0;
 
+    if(imageNames.length > 20)
+        residue = imageNames.length % 20;
+
+    console.log(residue + "hola");
+
     for (i; i < imageNames.length; i++) {
 
         names += imageNames[i];
@@ -371,19 +386,27 @@ function read() {
             names += ' OR ';
         }
 
-        if((i + 1) % 10 == 0) {
-            myNames[count] = names;
-            textContainer.innerHTML = myNames[count];
+        myNames[count] = names;
+
+        if((i + 1) % 20 == 0 || (imageNames.length % 20 > 0 && i == imageNames.length - 1 && imageNames.length > 20)) {
+            names = '';
+            elements[count] = document.createElement('div');
+            let br = document.createElement('br');
+            elements[count].innerHTML = myNames[count];
+            textContainer.appendChild(elements[count]);
+            textContainer.appendChild(br);
             count++;
         }
     }
 
-    if(i < 10 && count == 0){
-        //elements[count] = document.createElement('div');
-        //elements[count].innerHTML = myNames[count];
-        //textContainer.appendChild(elements[count]);
+    if(i < 20 && count == 0){
+        elements[count] = document.createElement('div');
+        let br = document.createElement('br');
+        elements[count].innerHTML = myNames[count];
+        textContainer.appendChild(elements[count]);
+        textContainer.appendChild(br);
 
-        textContainer.innerHTML = names;
+        //textContainer.innerHTML = myNames[count];
 
         //console.log(textContainer.appendChild(elements[count]));
     }
