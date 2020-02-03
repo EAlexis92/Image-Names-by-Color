@@ -40,12 +40,13 @@ input.addEventListener('change', function () {
 
                 img.onload = function () {
 
-                    let x = 100
+					
+					let x = 100
 
-                    canvas.width = x;
-                    canvas.height = x;
-
-                    ctx.drawImage(img, 0, 0, x, x);
+					canvas.width = x;
+					canvas.height = x;
+					
+					ctx.drawImage(img, 0, 0, x, x);
                 }
 
                 img.src = e.target.result;
@@ -103,9 +104,18 @@ function read() {
         let cont2 = 0;
 
         canvas = document.querySelector('#myCanvas' + (k + 1));
+		
+		try{
 
         height = canvas.attributes.height.value;
         width = canvas.attributes.width.value;
+		}
+		catch{
+			
+			height = 0;
+			width = 0;
+		}
+		
         ctx = canvas.getContext('2d');
 
         for(let j = 1; j <= height; j++) {
@@ -358,6 +368,8 @@ function read() {
                 cont4++;
             }
         }
+		
+		document.querySelector('#myCanvas' + (k + 1)).remove();
     }
 
     console.log(imageNames);
@@ -369,11 +381,6 @@ function read() {
     let elements = []
     let textContainer = document.querySelector('.textContainer');
     let i = 0;
-
-    if(imageNames.length > 20)
-        residue = imageNames.length % 20;
-
-    console.log(residue + "hola");
 
     for (i; i < imageNames.length; i++) {
 
